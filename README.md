@@ -31,7 +31,9 @@ The data preparation approach includes:
     - Class 2
     - Class 3
     - Class 4
-	Please note, that I am unable to share these classification boundaries because it would violate confidentiality. 
+
+Please note, that I am unable to share these classification boundaries because it would violate confidentiality. 
+
 ### Random Forest Model
 
 - Initial results showed promising performance:
