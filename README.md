@@ -88,3 +88,58 @@ Please note, that I am unable to share these classification boundaries because i
 - Initial results may be overly optimistic due to random data splits versus true future prediction
 - The model only requires simple in-house LTD data for training and prediction
 - Current implementation can predict total boardings within ± 9% of the max people per day. However, much more work can be done to increase the performance. 
+
+---
+# Deep Learning Model - Daily Ridership Prediction
+
+## Overview
+
+This contribution presents a deep learning approach for predicting daily total ridership. This model incorporates external data sources such as Weekly Gas Price, various CPI metrics, Daily Weather Data, and Daily Average AQI. The implementation is based on PyTorch and offers an alternative method to forecast transit usage with promising performance metrics.
+
+## Data Processing
+
+- **Data Sources:** Integrates LTD Ridership Data with external datasets.
+- **Feature Extraction:** Converts the `DATE` field into additional temporal features (DayOfWeek, Month, Day).
+- **Preprocessing Steps:**
+  - Boolean features are converted to binary values.
+  - Numerical features are standardized using `StandardScaler`.
+  - Categorical features are one-hot encoded via scikit-learn's `ColumnTransformer`.
+- **Data Splitting:** The dataset is partitioned into training and testing sets, with target values scaled accordingly.
+
+## Model Architecture
+
+- **Dynamic Construction:** The model is built as a feedforward neural network with configurable hidden layers (e.g., [256, 128, 64]).
+- **Layer Components:**
+  - Each hidden layer includes a linear transformation followed by ReLU activation.
+  - Batch Normalization and Dropout (20% rate) are applied to improve generalization.
+  - A final linear layer outputs the daily ridership prediction.
+
+### Training & Evaluation
+
+- **Training Process:**
+  - Utilizes Mean Squared Error (MSE) as the loss function.
+  - Employs the Adam optimizer with learning rate scheduling and early stopping based on performance improvements.
+  - Training loss is logged and visualized over epochs.
+- **Evaluation Metrics:**
+  - **MSE:** 12,392,269.0000
+  - **RMSE:** 3520.2655
+  - **R²:** 0.9084
+- **Visual Outputs:** Generates plots for training loss (`training_loss.png`) and feature importance (`feature_importance.png`).
+
+### Running the Model
+
+1. **Dependencies:** Ensure the following libraries are installed:
+   - PyTorch
+   - scikit-learn
+   - pandas
+   - matplotlib
+   - numpy
+2. **Setup:**
+   - Place the dataset file (`complete_data.tsv`) in the `./data/` directory.
+3. **Execution:**
+   ```bash
+   python predict_ride.py
+4. **Outputs:** After running the script, you will find:
+   - training_loss.png – Plot of training loss over epochs.
+   - feature_importance.png – Bar plot of feature importance.
+   - model.pth – Saved model weights.
